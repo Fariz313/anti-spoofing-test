@@ -93,8 +93,9 @@
       return;
     }
 
+    $("#message").html("Sending Data.");
     $.ajax({
-      url: "https://lsp-micro-anti-spoofing-ai.btqclk.easypanel.host/verify-video",
+      url: "http://127.0.0.1:7900/verify-video",
       type: "POST",
       data: formData,
       processData: false,
@@ -104,7 +105,7 @@
       },
       success: function (result) {
         // Update the message based on the response
-        if (result === "True") {
+        if (result["message"] === "face_match") {
           $("#message").html("Anti-Spoofing Test Passed");
         } else {
           $("#message").html("Anti-Spoofing Test Failed");
