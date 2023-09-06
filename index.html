@@ -2,20 +2,66 @@
 <html lang="en">
 
 <head>
-  <!-- ... (your head content) ... -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
 <body>
-  <button id="start-camera">Start Kegiatan</button>
-  <video id="video" width="320" height="240" autoplay></video>
+  <center>
+    <div class="row p-3">
+      <div class="col">
+        <div class="row">
+          <div class="col-6">
+            <img id="preview-id" alt="" style="height: 240px;">
+            <h4>Input Identity Image</h4>
+            <input class="form-control w-50" id="id-image" type="file">
+          </div>
+          <div class="col-6">
+            <img id="preview-com" alt="" style="height: 240px;">
+            <h4>Input Comparison Image</h4>
+            <input class="form-control w-50" id="comparison-image" type="file">
+          </div>
+          <div class="col-12">
+            <video class="d-block" id="video" width="320" height="240" autoplay></video>
+            <h4>Camera Permission</h4>
+            <button id="start-camera" class="btn btn-primary text-white">Izinkan Kamera</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </center>
   <br>
-  <h4>Input Comparison Image</h4>
-  <input id="comparison-image" type="file">
+  <button id="start-record" class="btn btn-success w-100">Start Record</button>
   <h1 id="message">Not Scanned</h1>
-  <button id="start-record">Start Record</button>
-  <button id="stop-record">Stop Record</button>
-  <button id="post-data">Post Data</button>
-  
+  <table class="table">
+    <tbody>
+      <tr>
+        <td>Upload Id</td>
+        <td><button id="status-id" class="btn btn-danger">X</button></td>
+      </tr>
+      <tr>
+        <td>Upload Comparasion image</td>
+        <td><button id="status-com" class="btn btn-danger">X</button></td>
+      </tr>
+      <tr>
+        <td>Camera Access</td>
+        <td><button id="status-access" class="btn btn-danger">X</button></td>
+      </tr>
+      <tr>
+        <td>Recording</td>
+        <td><button id="status-record" class="btn btn-danger">X</button></td>
+      </tr>
+      <tr>
+        <td>Result</td>
+        <td><button id="status-result" class="btn btn-danger">X</button></td>
+        <td>
+          <pre id="status-response">
+
+        </pre>
+        </td>
+      </tr>
+    </tbody>
+  </table>
   <a id="download-video" style="display: none" download="recorded_video.webm">Download Video</a>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.0.js" crossorigin="anonymous"></script>
@@ -28,6 +74,11 @@
   let post_button = document.querySelector("#post-data");
   let comparison_image_input = document.querySelector("#comparison-image");
 
+  let status_com = false
+  let status_id = false
+  let status_access = false
+  let status_record = false
+
   let camera_stream = null;
   let media_recorder = null;
   let blobs_recorded = [];
@@ -36,43 +87,113 @@
   comparison_image_input.addEventListener('change', function (event) {
     comparison_image = event.target.files[0];
   });
-
-  camera_button.addEventListener('click', async function () {
-    $("#message").html("On Scanning Please Wait!")
-    camera_stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-    video.srcObject = camera_stream;
-    $("button").click(function () {
-      
+  $(document).ready(() => {
+    $('#comparison-image').change(function () {
+      const file = this.files[0];
+      console.log(file);
+      if (file) {
+        let reader = new FileReader();
+        reader.onload = function (event) {
+          $("#status-com").removeClass("btn-danger");
+          $("#status-com").addClass("btn-success");
+          $("#status-com").html("V");
+          status_com = true
+          $('#preview-com').attr('src', event.target.result);
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+    $('#id-image').change(function () {
+      const file = this.files[0];
+      console.log(file);
+      if (file) {
+        let reader = new FileReader();
+        reader.onload = function (event) {
+          $("#status-id").removeClass("btn-danger");
+          $("#status-id").addClass("btn-success");
+          $("#status-id").html("V");
+          status_id = true
+          $('#preview-id').attr('src', event.target.result);
+        }
+        reader.readAsDataURL(file);
+      }
     });
   });
 
-  start_button.addEventListener('click', function () {
-    // set MIME type of recording as video/webm
-    media_recorder = new MediaRecorder(camera_stream, { mimeType: 'video/webm' });
 
-    // event : new recorded video blob available 
+  camera_button.addEventListener('click', async function () {
+    $("#message").html("On Scanning Please Wait!")
+    camera_stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+    video.srcObject = camera_stream;
+    $("#status-access").removeClass("btn-danger");
+    $("#status-access").addClass("btn-success");
+    $("#status-access").html("V");
+    status_access = true
+
+  });
+
+  start_button.addEventListener('click', function () {
+    if(!status_com || (!status_id || !status_access)){
+      alert("Selesaikan semua tahapan")
+      return
+    }
+    media_recorder = new MediaRecorder(camera_stream, { mimeType: 'video/webm' });
     media_recorder.addEventListener('dataavailable', function (e) {
       blobs_recorded.push(e.data);
     });
 
-    // event : recording stopped & all blobs sent
     media_recorder.addEventListener('stop', function () {
-      // create local object URL from the recorded video blobs
       let video_local = URL.createObjectURL(new Blob(blobs_recorded, { type: 'video/webm' }));
       download_link.href = video_local;
-      // Display a message indicating that the recording has been saved
       $("#message").html("Recording Saved");
     });
 
-    // Display a message indicating that recording has started
     $("#message").html("Recording Started");
-
-    // start recording with each recorded blob having 1 second video
     media_recorder.start(1000);
-
-    // Stop recording after 5 seconds
     setTimeout(function () {
       media_recorder.stop();
+
+      let formData = new FormData();
+      formData.append('video', new Blob(blobs_recorded, { type: 'video/webm' }));
+      formData.append('image', comparison_image);
+      if (blobs_recorded.length === 0 || !comparison_image) {
+        $("#message").html("Recorded video and comparison image are required.");
+        return;
+      }
+      $("#status-record").removeClass("btn-danger");
+      $("#status-record").addClass("btn-success");
+      $("#status-record").html("V");
+      status_record = true
+      $("#message").html("Sending Data.");
+      $.ajax({
+        url: "https://lsp-micro-anti-spoofing-ai.btqclk.easypanel.host/verify-video",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader("Authorization", "Basic " + btoa("GPM-DEVELOPMENT:GPM-DEVELOPMENT"));
+        },
+        success: function (result) {
+          // Update the message based on the response
+          if (result["message"] === "face_match") {
+            $("#message").html("Anti-Spoofing Test Passed");
+          } else {
+            $("#message").html("Anti-Spoofing Test Failed");
+          }
+          $("#status-result").removeClass("btn-danger");
+          $("#status-result").addClass("btn-success");
+          $("#status-result").html("V");
+          $("#status-response").html(JSON.stringify(result));
+        },
+        error: function (result) {
+          $("#message").html("Error while sending data.");
+          $("#status-result").removeClass("btn-success");
+          $("#status-result").addClass("btn-danger");
+          $("#status-result").html("X");
+          $("#status-response").html(JSON.stringify(result));
+        }
+      });
     }, 5000);
   });
 
@@ -84,7 +205,7 @@
 
   // Create a FormData object to send the data
   post_button.addEventListener('click', function () {
-    
+
     let formData = new FormData();
     formData.append('video', new Blob(blobs_recorded, { type: 'video/webm' }));
     formData.append('image', comparison_image);
@@ -100,7 +221,7 @@
       data: formData,
       processData: false,
       contentType: false,
-      beforeSend: function(xhr) {
+      beforeSend: function (xhr) {
         xhr.setRequestHeader("Authorization", "Basic " + btoa("GPM-DEVELOPMENT:GPM-DEVELOPMENT"));
       },
       success: function (result) {
