@@ -1,157 +1,381 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Face Detection</title>
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="assets/images/favicon.ico" />
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <!-- Typography CSS -->
+  <link rel="stylesheet" href="assets/css/typography.css">
+  <!-- Style CSS -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Responsive CSS -->
+  <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
 
 <body>
-  <center>
-    <div class="row p-3">
-      <div class="col">
+
+  <!-- Wrapper Start -->
+  <div class="wrapper">
+    <!-- TOP Nav Bar -->
+    <div class="iq-top-navbar">
+      <div class="iq-navbar-custom d-flex align-items-center justify-content-between">
+        <div class="iq-sidebar-logo" style="width: auto !important; padding-top: 0 !important;">
+          <div class="top-logo">
+            <a href="index.html" class="logo">
+              <img src="assets/images/logo.png" class="img-fluid" alt="">
+              <span>F.DC</span>
+            </a>
+          </div>
+        </div>
+        <div class="iq-menu-horizontal">
+          <nav class="iq-sidebar-menu">
+            <ul id="iq-sidebar-toggle" class="iq-menu d-flex">
+              <li class="active">
+                <a href="index.html" class="iq-waves-effect">
+                  <i class="ri-home-4-line"></i>
+                  <span>Dashboard</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-light p-0">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="ri-menu-3-line"></i>
+          </button>
+          <div class="iq-menu-bt align-self-center">
+            <div class="wrapper-menu">
+              <div class="line-menu half start"></div>
+              <div class="line-menu"></div>
+              <div class="line-menu half end"></div>
+            </div>
+          </div>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto navbar-list">
+
+            </ul>
+          </div>
+          <ul class="navbar-list">
+            <li>
+              <a href="#" class="search-toggle iq-waves-effect bg-primary text-white"><img
+                  src="assets/images/user/1.jpg" class="img-fluid rounded" alt="user"></a>
+              <div class="iq-sub-dropdown iq-user-dropdown">
+                <div class="iq-card shadow-none m-0">
+                  <div class="iq-card-body p-0 ">
+                    <div class="bg-primary p-3">
+                      <h5 class="mb-0 text-white line-height">Hello User</h5>
+                      <span class="text-white font-size-12">Available</span>
+                    </div>
+                    <div class="d-inline-block w-100 text-center p-3">
+                      <a class="iq-bg-danger iq-sign-btn" href="sign-in.html" role="button">Sign out<i
+                          class="ri-login-box-line ml-2"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <!-- TOP Nav Bar END -->
+    <!-- Page Content  -->
+    <div id="content-page" class="content-page" style="margin-left: auto !important;">
+      <div class="container-fluid">
         <div class="row">
-          <div class="col-6">
-            <img id="preview-id" alt="" style="height: 240px;">
-            <h4>Input Identity Image</h4>
-            <input class="form-control w-50" id="id-image" type="file">
+          <div class="col-lg-6">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height overflow-hidden">
+              <div class="iq-card-header d-flex justify-content-between">
+                <div class="iq-header-title">
+                  <h4 class="card-title">Input Identity Image</h4>
+                </div>
+              </div>
+              <div class="iq-card-body">
+                <div class="d-flex justify-content-around">
+                  <div class="form-group">
+                    <div class="custom-file">
+                      <input class="custom-file-input" id="id-image" type="file" accept="image/png, image/jpeg">
+                      <label class="custom-file-label" for="id-image" id="id-image-text">Choose file</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-around">
+                  <img id="preview-id" alt="" style="height: 240px;">
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="col-6">
-            <img id="preview-com" alt="" style="height: 240px;">
-            <h4>Input Comparison Image</h4>
-            <input class="form-control w-50" id="comparison-image" type="file">
+          <div class="col-lg-6">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height overflow-hidden">
+              <div class="iq-card-header d-flex justify-content-between">
+                <div class="iq-header-title">
+                  <h4 class="card-title">Input Comparison Image</h4>
+                </div>
+              </div>
+              <div class="iq-card-body">
+                <div class="d-flex justify-content-around">
+                  <div class="form-group">
+                    <div class="custom-file">
+                      <input class="custom-file-input" id="comparison-image" type="file" accept="image/png, image/jpeg">
+                      <label class="custom-file-label" for="comparison-image" id="comparison-image-text">Choose
+                        file</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-around">
+                  <img id="preview-com" alt="" style="height: 240px;">
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="col-12">
-            <video class="d-block" id="video" width="320" height="240" autoplay></video>
-            <h4>Camera Permission</h4>
-            <button id="start-camera" class="btn btn-primary text-white">Izinkan Kamera</button>
+          <div class="col-lg-12">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height overflow-hidden">
+              <div class="iq-card-header d-flex justify-content-between">
+                <div class="iq-header-title">
+                  <h4 class="card-title">Camera Permission</h4>
+                </div>
+                <div class="iq-card-header-toolbar d-flex align-items-center">
+                  <button id="start-camera" class="btn btn-primary text-white">Izinkan Kamera</button>
+                </div>
+              </div>
+              <div class="iq-card-body">
+                <div class="d-flex justify-content-around">
+                  <video class="d-block" id="video" width="320" height="240" autoplay></video>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <button id="start-record" class="btn btn-success w-100">Mulai Perekaman</button>
+            <div class="d-flex justify-content-around">
+              <h1 id="message">Belum Discan</h1>
+            </div>
+          </div>
+          <div class="col-lg-12">
+            <div class="iq-card iq-card-block iq-card-stretch iq-card-height overflow-hidden">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td>Task</td>
+                    <td>Status</td>
+                    <td>Result</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Upload Id</td>
+                    <td><button id="status-id" class="btn btn-danger">X</button></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Upload Comparasion image</td>
+                    <td><button id="status-com" class="btn btn-danger">X</button></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Camera Access</td>
+                    <td><button id="status-access" class="btn btn-danger">X</button></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Recording</td>
+                    <td><button id="status-record" class="btn btn-danger">X</button></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Result</td>
+                    <td><button id="status-result" class="btn btn-danger">X</button></td>
+                    <td>
+                      <pre id="status-response"></pre>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-lg-12">
+              <a id="download-video" style="display: none" download="recorded_video.webm">
+                <button class="btn btn-success">Download Video</button>
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </center>
-  <br>
-  <button id="start-record" class="btn btn-success w-100">Start Record</button>
-  <h1 id="message">Not Scanned</h1>
-  <table class="table">
-    <tbody>
-      <tr>
-        <td>Upload Id</td>
-        <td><button id="status-id" class="btn btn-danger">X</button></td>
-      </tr>
-      <tr>
-        <td>Upload Comparasion image</td>
-        <td><button id="status-com" class="btn btn-danger">X</button></td>
-      </tr>
-      <tr>
-        <td>Camera Access</td>
-        <td><button id="status-access" class="btn btn-danger">X</button></td>
-      </tr>
-      <tr>
-        <td>Recording</td>
-        <td><button id="status-record" class="btn btn-danger">X</button></td>
-      </tr>
-      <tr>
-        <td>Result</td>
-        <td><button id="status-result" class="btn btn-danger">X</button></td>
-        <td>
-          <pre id="status-response">
+  </div>
+  <!-- Wrapper END -->
+  <!-- Footer -->
+  <footer class="bg-white iq-footer" style="margin-left: auto !important;">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-6">
+          <ul class="list-inline mb-0">
+            <li class="list-inline-item"><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li class="list-inline-item"><a href="terms-of-service.html">Terms of Use</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-6 text-right">
+          Copyright 2023 <a href="#">Cubiconia</a> All Rights Reserved.
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Footer END -->
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.7.0.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+    crossorigin="anonymous"></script>
+  <script>
+    let camera_button = document.querySelector("#start-camera");
+    let video = document.querySelector("#video");
+    let start_button = document.querySelector("#start-record");
+    let stop_button = document.querySelector("#stop-record");
+    let download_link = document.querySelector("#download-video");
+    let post_button = document.querySelector("#post-data");
+    let comparison_image_input = document.querySelector("#comparison-image");
 
-        </pre>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <a id="download-video" style="display: none" download="recorded_video.webm">Download Video</a>
-</body>
-<script src="https://code.jquery.com/jquery-3.7.0.js" crossorigin="anonymous"></script>
-<script>
-  let camera_button = document.querySelector("#start-camera");
-  let video = document.querySelector("#video");
-  let start_button = document.querySelector("#start-record");
-  let stop_button = document.querySelector("#stop-record");
-  let download_link = document.querySelector("#download-video");
-  let post_button = document.querySelector("#post-data");
-  let comparison_image_input = document.querySelector("#comparison-image");
+    let status_com = false
+    let status_id = false
+    let status_access = false
+    let status_record = false
 
-  let status_com = false
-  let status_id = false
-  let status_access = false
-  let status_record = false
+    let camera_stream = null;
+    let media_recorder = null;
+    let blobs_recorded = [];
+    let comparison_image = null;
 
-  let camera_stream = null;
-  let media_recorder = null;
-  let blobs_recorded = [];
-  let comparison_image = null;
+    comparison_image_input.addEventListener('change', function (event) {
+      comparison_image = event.target.files[0];
+    });
+    $(document).ready(() => {
+      $('#comparison-image').change(function () {
+        const file = this.files[0];
+        console.log(file);
+        if (file) {
+          let reader = new FileReader();
+          reader.onload = function (event) {
+            $("#status-com").removeClass("btn-danger");
+            $("#status-com").addClass("btn-success");
+            $("#status-com").html("V");
+            status_com = true
+            $('#preview-com').attr('src', event.target.result);
+          }
+          reader.readAsDataURL(file);
+          $("#comparison-image-text").text(file.name);
 
-  comparison_image_input.addEventListener('change', function (event) {
-    comparison_image = event.target.files[0];
-  });
-  $(document).ready(() => {
-    $('#comparison-image').change(function () {
-      const file = this.files[0];
-      console.log(file);
-      if (file) {
-        let reader = new FileReader();
-        reader.onload = function (event) {
-          $("#status-com").removeClass("btn-danger");
-          $("#status-com").addClass("btn-success");
-          $("#status-com").html("V");
-          status_com = true
-          $('#preview-com').attr('src', event.target.result);
         }
-        reader.readAsDataURL(file);
-      }
-    });
-    $('#id-image').change(function () {
-      const file = this.files[0];
-      console.log(file);
-      if (file) {
-        let reader = new FileReader();
-        reader.onload = function (event) {
-          $("#status-id").removeClass("btn-danger");
-          $("#status-id").addClass("btn-success");
-          $("#status-id").html("V");
-          status_id = true
-          $('#preview-id').attr('src', event.target.result);
+      });
+      $('#id-image').change(function () {
+        const file = this.files[0];
+        console.log(file);
+        if (file) {
+          let reader = new FileReader();
+          reader.onload = function (event) {
+            $("#status-id").removeClass("btn-danger");
+            $("#status-id").addClass("btn-success");
+            $("#status-id").html("V");
+            status_id = true
+            $('#preview-id').attr('src', event.target.result);
+          }
+          reader.readAsDataURL(file);
+          $("#id-image-text").text(file.name);
         }
-        reader.readAsDataURL(file);
+      });
+    });
+
+
+    camera_button.addEventListener('click', async function () {
+      // $("#message").html("On Scanning Please Wait!")
+      camera_stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      video.srcObject = camera_stream;
+      $("#status-access").removeClass("btn-danger");
+      $("#status-access").addClass("btn-success");
+      $("#status-access").html("V");
+      status_access = true
+    });
+
+    start_button.addEventListener('click', function () {
+      if (!status_com || (!status_id || !status_access)) {
+        alert("Selesaikan Semua Tahapan")
+        return
       }
+      media_recorder = new MediaRecorder(camera_stream, { mimeType: 'video/webm' });
+      media_recorder.addEventListener('dataavailable', function (e) {
+        blobs_recorded.push(e.data);
+      });
+
+      media_recorder.addEventListener('stop', function () {
+        let video_local = URL.createObjectURL(new Blob(blobs_recorded, { type: 'video/webm' }));
+        download_link.href = video_local;
+        $("#message").html("Perekaman Wajah Disimpan, Mengirimkan Data");
+      });
+      
+
+      $("#message").html("Mulai Perekaman Wajah");
+      media_recorder.start(1000);
+      setTimeout(function () {
+        media_recorder.stop();
+
+        let formData = new FormData();
+        formData.append('video', new Blob(blobs_recorded, { type: 'video/webm' }));
+        formData.append('image', comparison_image);
+        if (blobs_recorded.length === 0 || !comparison_image) {
+          $("#message").html("Recorded video and comparison image are required.");
+          return;
+        }
+        $("#status-record").removeClass("btn-danger");
+        $("#status-record").addClass("btn-success");
+        $("#status-record").html("V");
+        status_record = true
+        
+        $.ajax({
+          url: "https://lsp-micro-anti-spoofing-ai.btqclk.easypanel.host/verify-video",
+          type: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          beforeSend: function (xhr) {
+            xhr.setRequestHeader("Authorization", "Basic " + btoa("GPM-DEVELOPMENT:GPM-DEVELOPMENT"));
+          },
+          success: function (result) {
+            // Update the message based on the response
+            if (result["message"] === "face_match") {
+              $("#message").html("Scan Berhasil");
+            } else {
+              $("#message").html("Scan Tidak Sama");
+            }
+            $("#status-result").removeClass("btn-danger");
+            $("#status-result").addClass("btn-success");
+            $("#status-result").html("V");
+            $("#status-response").html(JSON.stringify(result));
+          },
+          error: function (result) {
+            $("#message").html("Foto Tidak Proporsional");
+            $("#status-result").removeClass("btn-success");
+            $("#status-result").addClass("btn-danger");
+            $("#status-result").html("X");
+            $("#status-response").html(JSON.stringify(result));
+          }
+        });
+      }, 5000);
     });
-  });
 
-
-  camera_button.addEventListener('click', async function () {
-    $("#message").html("On Scanning Please Wait!")
-    camera_stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-    video.srcObject = camera_stream;
-    $("#status-access").removeClass("btn-danger");
-    $("#status-access").addClass("btn-success");
-    $("#status-access").html("V");
-    status_access = true
-
-  });
-
-  start_button.addEventListener('click', function () {
-    if(!status_com || (!status_id || !status_access)){
-      alert("Selesaikan semua tahapan")
-      return
-    }
-    media_recorder = new MediaRecorder(camera_stream, { mimeType: 'video/webm' });
-    media_recorder.addEventListener('dataavailable', function (e) {
-      blobs_recorded.push(e.data);
-    });
-
-    media_recorder.addEventListener('stop', function () {
-      let video_local = URL.createObjectURL(new Blob(blobs_recorded, { type: 'video/webm' }));
-      download_link.href = video_local;
-      $("#message").html("Recording Saved");
-    });
-
-    $("#message").html("Recording Started");
-    media_recorder.start(1000);
-    setTimeout(function () {
+    stop_button.addEventListener('click', function () {
       media_recorder.stop();
+    });
+
+    // Create a FormData object to send the data
+    post_button.addEventListener('click', function () {
 
       let formData = new FormData();
       formData.append('video', new Blob(blobs_recorded, { type: 'video/webm' }));
@@ -160,10 +384,7 @@
         $("#message").html("Recorded video and comparison image are required.");
         return;
       }
-      $("#status-record").removeClass("btn-danger");
-      $("#status-record").addClass("btn-success");
-      $("#status-record").html("V");
-      status_record = true
+
       $("#message").html("Sending Data.");
       $.ajax({
         url: "https://lsp-micro-anti-spoofing-ai.btqclk.easypanel.host/verify-video",
@@ -181,62 +402,13 @@
           } else {
             $("#message").html("Anti-Spoofing Test Failed");
           }
-          $("#status-result").removeClass("btn-danger");
-          $("#status-result").addClass("btn-success");
-          $("#status-result").html("V");
-          $("#status-response").html(JSON.stringify(result));
         },
-        error: function (result) {
+        error: function () {
           $("#message").html("Error while sending data.");
-          $("#status-result").removeClass("btn-success");
-          $("#status-result").addClass("btn-danger");
-          $("#status-result").html("X");
-          $("#status-response").html(JSON.stringify(result));
         }
       });
-    }, 5000);
-  });
-
-  stop_button.addEventListener('click', function () {
-    media_recorder.stop();
-  });
-
-
-
-  // Create a FormData object to send the data
-  post_button.addEventListener('click', function () {
-
-    let formData = new FormData();
-    formData.append('video', new Blob(blobs_recorded, { type: 'video/webm' }));
-    formData.append('image', comparison_image);
-    if (blobs_recorded.length === 0 || !comparison_image) {
-      $("#message").html("Recorded video and comparison image are required.");
-      return;
-    }
-
-    $("#message").html("Sending Data.");
-    $.ajax({
-      url: "https://lsp-micro-anti-spoofing-ai.btqclk.easypanel.host/verify-video",
-      type: "POST",
-      data: formData,
-      processData: false,
-      contentType: false,
-      beforeSend: function (xhr) {
-        xhr.setRequestHeader("Authorization", "Basic " + btoa("GPM-DEVELOPMENT:GPM-DEVELOPMENT"));
-      },
-      success: function (result) {
-        // Update the message based on the response
-        if (result["message"] === "face_match") {
-          $("#message").html("Anti-Spoofing Test Passed");
-        } else {
-          $("#message").html("Anti-Spoofing Test Failed");
-        }
-      },
-      error: function () {
-        $("#message").html("Error while sending data.");
-      }
     });
-  });
-</script>
+  </script>
+</body>
 
 </html>
