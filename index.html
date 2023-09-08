@@ -9,8 +9,7 @@
   <!-- Favicon -->
   <link rel="shortcut icon" href="assets/images/favicon.ico" />
   <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <link rel="stylesheet" href="assets/css/bootstrap.min.css">
   <!-- Typography CSS -->
   <link rel="stylesheet" href="assets/css/typography.css">
   <!-- Style CSS -->
@@ -19,15 +18,14 @@
   <link rel="stylesheet" href="assets/css/responsive.css">
 </head>
 
-<body>
-
+<body class="iq-page-menu-horizontal right-column-fixed">
   <!-- Wrapper Start -->
   <div class="wrapper">
     <!-- TOP Nav Bar -->
     <div class="iq-top-navbar">
       <div class="iq-navbar-custom d-flex align-items-center justify-content-between">
-        <div class="iq-sidebar-logo" style="width: auto !important; padding-top: 0 !important;">
-          <div class="top-logo" style="display: block !important;">
+        <div class="iq-sidebar-logo" style="width: auto !important;">
+          <div class="top-logo">
             <a href="index.html" class="logo">
               <img src="assets/images/logo.png" class="img-fluid" alt="">
               <span>F.DC</span>
@@ -74,10 +72,10 @@
                       <h5 class="mb-0 text-white line-height">Hello User</h5>
                       <span class="text-white font-size-12">Available</span>
                     </div>
-                    <div class="d-inline-block w-100 text-center p-3">
+                    <!-- <div class="d-inline-block w-100 text-center p-3">
                       <a class="iq-bg-danger iq-sign-btn" href="sign-in.html" role="button">Sign out<i
                           class="ri-login-box-line ml-2"></i></a>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -88,7 +86,7 @@
     </div>
     <!-- TOP Nav Bar END -->
     <!-- Page Content  -->
-    <div id="content-page" class="content-page" style="margin-left: auto !important;">
+    <div id="content-page" class="content-page">
       <div class="container-fluid">
         <div class="row">
           <div class="col-lg-6">
@@ -162,22 +160,22 @@
           </div>
           <div class="col-lg-12">
             <div class="iq-card iq-card-block iq-card-stretch iq-card-height overflow-hidden">
-              <table class="table">
+              <table class="table ">
                 <thead>
                   <tr>
-                    <td>Task</td>
-                    <td>Status</td>
-                    <td>Result</td>
+                    <th width="30%">Tahapan</th>
+                    <th width="10%">Status</th>
+                    <th>Hasil</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Upload Id</td>
+                    <td>Upload ID</td>
                     <td><button id="status-id" class="btn btn-danger">X</button></td>
                     <td></td>
                   </tr>
                   <tr>
-                    <td>Upload Comparasion image</td>
+                    <td>Upload Comparasion Image</td>
                     <td><button id="status-com" class="btn btn-danger">X</button></td>
                     <td></td>
                   </tr>
@@ -195,7 +193,7 @@
                     <td>Result</td>
                     <td><button id="status-result" class="btn btn-danger">X</button></td>
                     <td>
-                      <pre id="status-response"></pre>
+                      <pre id="status-response" style="white-space: pre-wrap; "></pre>
                     </td>
                   </tr>
                 </tbody>
@@ -205,6 +203,27 @@
               <a id="download-video" style="display: none" download="recorded_video.webm">
                 <button class="btn btn-success">Download Video</button>
               </a>
+            </div>
+          </div>
+          <div class="col-lg-12" id="akurasi-list" style="display: none;">
+            <div class="iq-card iq-card-block iq-card-stretch" style="position: relative;">
+              <div class="iq-card-header d-flex justify-content-between">
+                <div class="iq-header-title">
+                  <h4 class="card-title">Akurasi Tiap Frame</h4>
+                </div>
+              </div>
+              <div class="iq-card-body rounded pb-primary">
+                <table class="table" id="akurasi-table">
+                  <thead>
+                    <tr>
+                      <th>Frame</th>
+                      <th>Akurasi Liveness</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
@@ -231,10 +250,42 @@
   <!-- Footer END -->
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.7.0.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
-    crossorigin="anonymous"></script>
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/popper.min.js"></script>
+  <script src="assets/js/bootstrap.min.js"></script>
+  <!-- Appear JavaScript -->
+  <script src="assets/js/jquery.appear.js"></script>
+  <!-- Countdown JavaScript -->
+  <script src="assets/js/countdown.min.js"></script>
+  <!-- Counterup JavaScript -->
+  <script src="assets/js/waypoints.min.js"></script>
+  <script src="assets/js/jquery.counterup.min.js"></script>
+  <!-- Wow JavaScript -->
+  <script src="assets/js/wow.min.js"></script>
+  <!-- Apexcharts JavaScript -->
+  <script src="assets/js/apexcharts.js"></script>
+  <!-- Slick JavaScript -->
+  <script src="assets/js/slick.min.js"></script>
+  <!-- Select2 JavaScript -->
+  <script src="assets/js/select2.min.js"></script>
+  <!-- Owl Carousel JavaScript -->
+  <script src="assets/js/owl.carousel.min.js"></script>
+  <!-- Magnific Popup JavaScript -->
+  <script src="assets/js/jquery.magnific-popup.min.js"></script>
+  <!-- Smooth Scrollbar JavaScript -->
+  <script src="assets/js/smooth-scrollbar.js"></script>
+  <!-- lottie JavaScript -->
+  <script src="assets/js/lottie.js"></script>
+  <!-- core JavaScript -->
+  <!-- <script src="assets/js/core.js"></script> -->
+  <!-- charts JavaScript -->
+  <!-- <script src="assets/js/charts.js"></script> -->
+  <!-- animated JavaScript -->
+  <!-- <script src="assets/js/animated.js"></script> -->
+  <!-- Chart Custom JavaScript -->
+  <script src="assets/js/chart-custom.js"></script>
+  <!-- Custom JavaScript -->
+  <script src="assets/js/custom.js"></script>
   <script>
     let camera_button = document.querySelector("#start-camera");
     let video = document.querySelector("#video");
@@ -243,6 +294,7 @@
     let download_link = document.querySelector("#download-video");
     let post_button = document.querySelector("#post-data");
     let comparison_image_input = document.querySelector("#comparison-image");
+    var akurasi_table = $('#akurasi-table tbody');
 
     let status_com = false
     let status_id = false
@@ -253,6 +305,9 @@
     let media_recorder = null;
     let blobs_recorded = [];
     let comparison_image = null;
+
+    var livenessAccuracies = 0;
+    var averageLivenessAccuracy = 0;
 
     comparison_image_input.addEventListener('change', function (event) {
       comparison_image = event.target.files[0];
@@ -293,7 +348,6 @@
       });
     });
 
-
     camera_button.addEventListener('click', async function () {
       // $("#message").html("On Scanning Please Wait!")
       camera_stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
@@ -309,6 +363,10 @@
         alert("Selesaikan Semua Tahapan")
         return
       }
+
+      akurasi_table.empty();
+
+
       media_recorder = new MediaRecorder(camera_stream, { mimeType: 'video/webm' });
       media_recorder.addEventListener('dataavailable', function (e) {
         blobs_recorded.push(e.data);
@@ -319,27 +377,26 @@
         download_link.href = video_local;
         $("#message").html("Perekaman Wajah Disimpan, Mengirimkan Data");
       });
-      
 
       $("#message").html("Mulai Perekaman Wajah");
       media_recorder.start(1000);
+
       setTimeout(function () {
         media_recorder.stop();
-
         let formData = new FormData();
         formData.append('video', new Blob(blobs_recorded, { type: 'video/webm' }));
         formData.append('image', comparison_image);
         if (blobs_recorded.length === 0 || !comparison_image) {
-          $("#message").html("Recorded video and comparison image are required.");
+          $("#message").html("Rekaman Video dan Foto Pembanding Dibutuhkan");
           return;
         }
         $("#status-record").removeClass("btn-danger");
         $("#status-record").addClass("btn-success");
         $("#status-record").html("V");
         status_record = true
-        
+
         $.ajax({
-          url: "https://lsp-micro-anti-spoofing-ai.btqclk.easypanel.host/verify-video",
+          url: "https://spoofout.cubiconia.net/verify-video",
           type: "POST",
           data: formData,
           processData: false,
@@ -348,16 +405,33 @@
             xhr.setRequestHeader("Authorization", "Basic " + btoa("GPM-DEVELOPMENT:GPM-DEVELOPMENT"));
           },
           success: function (result) {
-            // Update the message based on the response
+            result.data.forEach(function (item, index) {
+              var row = '<tr>' +
+                '<td>Frame ' + (index + 1) + '</td>' +
+                '<td>' + (item.liveness_accuracy * 100).toFixed(2) + '%</td>' +
+                '</tr>';
+              akurasi_table.append(row);
+            });
+
+            livenessAccuracies = result.data.map(function (item) {
+              return item.liveness_accuracy;
+            });
+            averageLivenessAccuracy = (livenessAccuracies.reduce(function (acc, val) {
+              return acc + val;
+            }, 0) / livenessAccuracies.length * 100).toFixed(2);
+
             if (result["message"] === "face_match") {
-              $("#message").html("Scan Berhasil");
+              $("#message").html("Scan Berhasil, Akurasi " + averageLivenessAccuracy + '%');
             } else {
-              $("#message").html("Scan Tidak Sama");
+              $("#message").html("Scan Tidak Sama, Akurasi " + averageLivenessAccuracy + '%');
             }
             $("#status-result").removeClass("btn-danger");
             $("#status-result").addClass("btn-success");
             $("#status-result").html("V");
             $("#status-response").html(JSON.stringify(result));
+            $('#akurasi-list').show();
+
+
           },
           error: function (result) {
             $("#message").html("Foto Tidak Proporsional");
@@ -375,39 +449,39 @@
     });
 
     // Create a FormData object to send the data
-    post_button.addEventListener('click', function () {
+    // post_button.addEventListener('click', function () {
 
-      let formData = new FormData();
-      formData.append('video', new Blob(blobs_recorded, { type: 'video/webm' }));
-      formData.append('image', comparison_image);
-      if (blobs_recorded.length === 0 || !comparison_image) {
-        $("#message").html("Recorded video and comparison image are required.");
-        return;
-      }
+    //   let formData = new FormData();
+    //   formData.append('video', new Blob(blobs_recorded, { type: 'video/webm' }));
+    //   formData.append('image', comparison_image);
+    //   if (blobs_recorded.length === 0 || !comparison_image) {
+    //     $("#message").html("Recorded video and comparison image are required.");
+    //     return;
+    //   }
 
-      $("#message").html("Sending Data.");
-      $.ajax({
-        url: "https://lsp-micro-anti-spoofing-ai.btqclk.easypanel.host/verify-video",
-        type: "POST",
-        data: formData,
-        processData: false,
-        contentType: false,
-        beforeSend: function (xhr) {
-          xhr.setRequestHeader("Authorization", "Basic " + btoa("GPM-DEVELOPMENT:GPM-DEVELOPMENT"));
-        },
-        success: function (result) {
-          // Update the message based on the response
-          if (result["message"] === "face_match") {
-            $("#message").html("Anti-Spoofing Test Passed");
-          } else {
-            $("#message").html("Anti-Spoofing Test Failed");
-          }
-        },
-        error: function () {
-          $("#message").html("Error while sending data.");
-        }
-      });
-    });
+    //   $("#message").html("Sending Data.");
+    //   $.ajax({
+    //     url: "https://lsp-micro-anti-spoofing-ai.btqclk.easypanel.host/verify-video",
+    //     type: "POST",
+    //     data: formData,
+    //     processData: false,
+    //     contentType: false,
+    //     beforeSend: function (xhr) {
+    //       xhr.setRequestHeader("Authorization", "Basic " + btoa("GPM-DEVELOPMENT:GPM-DEVELOPMENT"));
+    //     },
+    //     success: function (result) {
+    //       // Update the message based on the response
+    //       if (result["message"] === "face_match") {
+    //         $("#message").html("Anti-Spoofing Test Passed");
+    //       } else {
+    //         $("#message").html("Anti-Spoofing Test Failed");
+    //       }
+    //     },
+    //     error: function () {
+    //       $("#message").html("Error while sending data.");
+    //     }
+    //   });
+    // });
   </script>
 </body>
 
