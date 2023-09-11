@@ -28,7 +28,7 @@
           <div class="top-logo">
             <a href="index.html" class="logo">
               <img src="assets/images/logo.png" class="img-fluid" alt="">
-              <span>F.DC</span>
+              <span>Face Detection</span>
             </a>
           </div>
         </div>
@@ -242,7 +242,7 @@
           </ul>
         </div>
         <div class="col-lg-6 text-right">
-          Copyright 2023 <a href="#">Cubiconia</a> All Rights Reserved.
+          Copyright 2023 <a href="https://cubiconia.com/">Cubiconia</a> All Rights Reserved.
         </div>
       </div>
     </div>
@@ -309,13 +309,14 @@
     var livenessAccuracies = 0;
     var averageLivenessAccuracy = 0;
 
-    comparison_image_input.addEventListener('change', function (event) {
-      comparison_image = event.target.files[0];
-    });
+    // comparison_image_input.addEventListener('change', function (event) {
+      
+    // });
     $(document).ready(() => {
       $('#comparison-image').change(function () {
+        comparison_image = event.target.files[0];
         const file = this.files[0];
-        console.log(file);
+        console.log(comparison_image);
         if (file) {
           let reader = new FileReader();
           reader.onload = function (event) {
@@ -364,7 +365,18 @@
         return
       }
 
+      console.log('FOTO',comparison_image);
+
       akurasi_table.empty();
+      $("#status-record").removeClass("btn-success");
+      $("#status-record").addClass("btn-danger");
+      $("#status-record").html("X");
+
+      $("#status-result").removeClass("btn-success");
+      $("#status-result").addClass("btn-danger");
+      $("#status-result").html("X");
+      $("#status-response").html('');
+
 
 
       media_recorder = new MediaRecorder(camera_stream, { mimeType: 'video/webm' });
@@ -422,16 +434,20 @@
 
             if (result["message"] === "face_match") {
               $("#message").html("Scan Berhasil, Akurasi " + averageLivenessAccuracy + '%');
+              $("#status-result").removeClass("btn-danger");
+              $("#status-result").addClass("btn-success");
+              $("#status-result").html("V");
+              $("#status-response").html(JSON.stringify(result));
+              $('#akurasi-list').show();
             } else {
               $("#message").html("Scan Tidak Sama, Akurasi " + averageLivenessAccuracy + '%');
+              $("#status-result").removeClass("btn-success");
+              $("#status-result").addClass("btn-danger");
+              $("#status-result").html("X");
+              $("#status-response").html(JSON.stringify(result));
+              $('#akurasi-list').show();
             }
-            $("#status-result").removeClass("btn-danger");
-            $("#status-result").addClass("btn-success");
-            $("#status-result").html("V");
-            $("#status-response").html(JSON.stringify(result));
-            $('#akurasi-list').show();
-
-
+            
           },
           error: function (result) {
             $("#message").html("Foto Tidak Proporsional");

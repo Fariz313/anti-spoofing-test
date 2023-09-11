@@ -114,6 +114,7 @@ NOTE: This file contains the styling for responsive Template.
 	Horizontal Menu Page
 	-----------------------------------------------------------------------*/
 	.iq-menu-horizontal .iq-sidebar-menu .iq-menu li {
+		margin-right: 150px;
 		position: relative;
 	}
 
