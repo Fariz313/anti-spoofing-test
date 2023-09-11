@@ -140,20 +140,22 @@
                 <div class="iq-header-title">
                   <h4 class="card-title">Camera Permission</h4>
                 </div>
-                <div class="iq-card-header-toolbar d-flex align-items-center">
-                  <button id="start-camera" class="btn btn-primary text-white">Izinkan Kamera</button>
-                </div>
+                <!-- <div class="iq-card-header-toolbar d-flex align-items-center">
+                </div> -->
               </div>
               <div class="iq-card-body">
                 <div class="d-flex justify-content-around">
                   <video class="d-block" id="video" width="320" height="240" autoplay></video>
 
                 </div>
+                <div class="d-flex justify-content-around mt-2">
+                  <button id="start-camera" class="btn btn-primary text-white">Izinkan Kamera</button>
+                </div>
               </div>
             </div>
           </div>
           <div class="col-lg-12">
-            <button id="start-record" class="btn btn-success w-100">Mulai Perekaman</button>
+            <button id="start-record" class="btn btn-success w-100">Mulai Perekaman Wajah</button>
             <div class="d-flex justify-content-around">
               <h1 id="message">Belum Discan</h1>
             </div>
@@ -217,7 +219,8 @@
                   <thead>
                     <tr>
                       <th>Frame</th>
-                      <th>Akurasi Liveness</th>
+                      <th>Keaslian</th>
+                      <th>Kemiripan</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -306,11 +309,8 @@
     let blobs_recorded = [];
     let comparison_image = null;
 
-    var livenessAccuracies = 0;
-    var averageLivenessAccuracy = 0;
-
     // comparison_image_input.addEventListener('change', function (event) {
-      
+
     // });
     $(document).ready(() => {
       $('#comparison-image').change(function () {
@@ -360,12 +360,14 @@
     });
 
     start_button.addEventListener('click', function () {
+      $("#start-record").prop('disabled', true);
       if (!status_com || (!status_id || !status_access)) {
+        $("#start-record").prop('disabled', false);
         alert("Selesaikan Semua Tahapan")
         return
       }
 
-      console.log('FOTO',comparison_image);
+      console.log('FOTO', comparison_image);
 
       akurasi_table.empty();
       $("#status-record").removeClass("btn-success");
@@ -417,10 +419,15 @@
             xhr.setRequestHeader("Authorization", "Basic " + btoa("GPM-DEVELOPMENT:GPM-DEVELOPMENT"));
           },
           success: function (result) {
+            let totalLiveness = 0;
+            let totalDistance = 0;
             result.data.forEach(function (item, index) {
+              let liveness = item.liveness_accuracy * 100;
+              let distance = (1 - item.fr_distance) * 100;
               var row = '<tr>' +
                 '<td>Frame ' + (index + 1) + '</td>' +
-                '<td>' + (item.liveness_accuracy * 100).toFixed(2) + '%</td>' +
+                '<td>' + liveness.toFixed(2) + '%</td>' +
+                '<td>' + distance.toFixed(2) + '%</td>' +
                 '</tr>';
               akurasi_table.append(row);
             });
@@ -432,22 +439,29 @@
               return acc + val;
             }, 0) / livenessAccuracies.length * 100).toFixed(2);
 
+            distanceAccuracies = result.data.map(function (item) {
+              return (1 - item.fr_distance);
+            });
+            averageDistanceAccuracy = (distanceAccuracies.reduce(function (acc, val) {
+              return acc + val;
+            }, 0) / distanceAccuracies.length * 100).toFixed(2);
+
             if (result["message"] === "face_match") {
-              $("#message").html("Scan Berhasil, Akurasi " + averageLivenessAccuracy + '%');
+              $("#message").html("Scan Berhasil, Keaslian : " + averageLivenessAccuracy + '%, Kemiripan : ' + averageDistanceAccuracy + '%');
               $("#status-result").removeClass("btn-danger");
               $("#status-result").addClass("btn-success");
               $("#status-result").html("V");
               $("#status-response").html(JSON.stringify(result));
               $('#akurasi-list').show();
             } else {
-              $("#message").html("Scan Tidak Sama, Akurasi " + averageLivenessAccuracy + '%');
+              $("#message").html("Scan Tidak Sama, Keaslian : " + averageLiveness.toFixed(2) + '%, Kemiripan : ' + averageDistance.toFixed(2) + '%');
               $("#status-result").removeClass("btn-success");
               $("#status-result").addClass("btn-danger");
               $("#status-result").html("X");
               $("#status-response").html(JSON.stringify(result));
               $('#akurasi-list').show();
             }
-            
+            $("#start-record").prop('disabled', false);
           },
           error: function (result) {
             $("#message").html("Foto Tidak Proporsional");
@@ -455,6 +469,7 @@
             $("#status-result").addClass("btn-danger");
             $("#status-result").html("X");
             $("#status-response").html(JSON.stringify(result));
+            $("#start-record").prop('disabled', false);
           }
         });
       }, 5000);
