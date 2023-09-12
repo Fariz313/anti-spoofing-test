@@ -454,7 +454,7 @@
               $("#status-response").html(JSON.stringify(result));
               $('#akurasi-list').show();
             } else {
-              $("#message").html("Scan Tidak Sama, Keaslian : " + averageLiveness.toFixed(2) + '%, Kemiripan : ' + averageDistance.toFixed(2) + '%');
+              $("#message").html("Scan Tidak Sama, Keaslian : " + averageLivenessAccuracy + '%, Kemiripan : ' + averageDistanceAccuracy + '%');
               $("#status-result").removeClass("btn-success");
               $("#status-result").addClass("btn-danger");
               $("#status-result").html("X");
