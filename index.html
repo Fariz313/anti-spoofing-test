@@ -432,17 +432,17 @@
               akurasi_table.append(row);
             });
 
-            livenessAccuracies = result.data.map(function (item) {
+            let livenessAccuracies = result.data.map(function (item) {
               return item.liveness_accuracy;
             });
-            averageLivenessAccuracy = (livenessAccuracies.reduce(function (acc, val) {
+            let averageLivenessAccuracy = (livenessAccuracies.reduce(function (acc, val) {
               return acc + val;
             }, 0) / livenessAccuracies.length * 100).toFixed(2);
 
-            distanceAccuracies = result.data.map(function (item) {
+            let distanceAccuracies = result.data.map(function (item) {
               return (1 - item.fr_distance);
             });
-            averageDistanceAccuracy = (distanceAccuracies.reduce(function (acc, val) {
+            let averageDistanceAccuracy = (distanceAccuracies.reduce(function (acc, val) {
               return acc + val;
             }, 0) / distanceAccuracies.length * 100).toFixed(2);
 
