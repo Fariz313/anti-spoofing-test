@@ -93,7 +93,7 @@
             <div class="iq-card iq-card-block iq-card-stretch iq-card-height overflow-hidden">
               <div class="iq-card-header d-flex justify-content-between">
                 <div class="iq-header-title">
-                  <h4 class="card-title">Input Identity Image</h4>
+                  <h4 class="card-title">Masukkan Kartu Identitas</h4>
                 </div>
               </div>
               <div class="iq-card-body">
@@ -101,7 +101,7 @@
                   <div class="form-group">
                     <div class="custom-file">
                       <input class="custom-file-input" id="id-image" type="file" accept="image/png, image/jpeg">
-                      <label class="custom-file-label" for="id-image" id="id-image-text">Choose file</label>
+                      <label class="custom-file-label" for="id-image" id="id-image-text">Pilih File</label>
                     </div>
                   </div>
                 </div>
@@ -115,7 +115,7 @@
             <div class="iq-card iq-card-block iq-card-stretch iq-card-height overflow-hidden">
               <div class="iq-card-header d-flex justify-content-between">
                 <div class="iq-header-title">
-                  <h4 class="card-title">Input Comparison Image</h4>
+                  <h4 class="card-title">Masukkan Foto Pembanding</h4>
                 </div>
               </div>
               <div class="iq-card-body">
@@ -123,8 +123,8 @@
                   <div class="form-group">
                     <div class="custom-file">
                       <input class="custom-file-input" id="comparison-image" type="file" accept="image/png, image/jpeg">
-                      <label class="custom-file-label" for="comparison-image" id="comparison-image-text">Choose
-                        file</label>
+                      <label class="custom-file-label" for="comparison-image" id="comparison-image-text">Pilih
+                        Foto</label>
                     </div>
                   </div>
                 </div>
@@ -138,7 +138,7 @@
             <div class="iq-card iq-card-block iq-card-stretch iq-card-height overflow-hidden">
               <div class="iq-card-header d-flex justify-content-between">
                 <div class="iq-header-title">
-                  <h4 class="card-title">Camera Permission</h4>
+                  <h4 class="card-title">Izin Kamera</h4>
                 </div>
                 <!-- <div class="iq-card-header-toolbar d-flex align-items-center">
                 </div> -->
@@ -172,27 +172,27 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Upload ID</td>
+                    <td>Upload Kartu Identitas</td>
                     <td><button id="status-id" class="btn btn-danger">X</button></td>
                     <td></td>
                   </tr>
                   <tr>
-                    <td>Upload Comparasion Image</td>
+                    <td>Upload Foto Pembanding</td>
                     <td><button id="status-com" class="btn btn-danger">X</button></td>
                     <td></td>
                   </tr>
                   <tr>
-                    <td>Camera Access</td>
+                    <td>Izin Kamera</td>
                     <td><button id="status-access" class="btn btn-danger">X</button></td>
                     <td></td>
                   </tr>
                   <tr>
-                    <td>Recording</td>
+                    <td>Rekam Wajah</td>
                     <td><button id="status-record" class="btn btn-danger">X</button></td>
                     <td></td>
                   </tr>
                   <tr>
-                    <td>Result</td>
+                    <td>Hasil</td>
                     <td><button id="status-result" class="btn btn-danger">X</button></td>
                     <td>
                       <pre id="status-response" style="white-space: pre-wrap; "></pre>
@@ -360,6 +360,7 @@
     });
 
     start_button.addEventListener('click', function () {
+      blobs_recorded = [];
       $("#start-record").prop('disabled', true);
       if (!status_com || (!status_id || !status_access)) {
         $("#start-record").prop('disabled', false);
@@ -378,8 +379,6 @@
       $("#status-result").addClass("btn-danger");
       $("#status-result").html("X");
       $("#status-response").html('');
-
-
 
       media_recorder = new MediaRecorder(camera_stream, { mimeType: 'video/webm' });
       media_recorder.addEventListener('dataavailable', function (e) {
@@ -453,7 +452,14 @@
               $("#status-result").html("V");
               $("#status-response").html(JSON.stringify(result));
               $('#akurasi-list').show();
-            } else {
+            } else if (result["message"] === "no_face_detected") {
+              $("#message").html("Scan Tidak Berhasil, Wajah Tidak Terdeteksi");
+              $("#status-result").removeClass("btn-success");
+              $("#status-result").addClass("btn-danger");
+              $("#status-result").html("X");
+              $("#status-response").html(JSON.stringify(result));
+              $('#akurasi-list').hide();
+            } else if (result["message"] === "face_not_match") {
               $("#message").html("Scan Tidak Sama, Keaslian : " + averageLivenessAccuracy + '%, Kemiripan : ' + averageDistanceAccuracy + '%');
               $("#status-result").removeClass("btn-success");
               $("#status-result").addClass("btn-danger");
@@ -469,6 +475,7 @@
             $("#status-result").addClass("btn-danger");
             $("#status-result").html("X");
             $("#status-response").html(JSON.stringify(result));
+            $('#akurasi-list').hide();
             $("#start-record").prop('disabled', false);
           }
         });
