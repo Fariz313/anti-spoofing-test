@@ -418,62 +418,71 @@
             xhr.setRequestHeader("Authorization", "Basic " + btoa("GPM-DEVELOPMENT:GPM-DEVELOPMENT"));
           },
           success: function (result) {
-            let totalLiveness = 0;
-            let totalDistance = 0;
-
-            result.data.forEach(function (item, index) {
-              let liveness = 0;
-              let distance = 0;
-
-              if (item.liveness_accuracy !== null) {
-                liveness = item.liveness_accuracy * 100;
-                totalLiveness += liveness;
-                hasValidData = true;
-              }
-
-              if (item.fr_distance !== null) {
-                distance = (1 - item.fr_distance) * 100;
-                totalDistance += distance;
-                hasValidData = true;
-              }
-
-              var row = '<tr>' +
-                '<td>Frame ' + (index + 1) + '</td>' +
-                '<td>' + liveness.toFixed(2) + '%</td>' +
-                '<td>' + distance.toFixed(2) + '%</td>' +
-                '</tr>';
-              akurasi_table.append(row);
-            });
-
-            let averageLivenessAccuracy = (totalLiveness / result.data.length).toFixed(2);
-            let averageDistanceAccuracy = (totalDistance / result.data.length).toFixed(2);
-
-            if (result["message"] === "face_match") {
-              $("#th-asli").html("Keaslian");
-              $("#message").html("Scan Berhasil, Keaslian : " + averageLivenessAccuracy + '%, Kemiripan : ' + averageDistanceAccuracy + '%');
-              $("#status-result").removeClass("btn-danger");
-              $("#status-result").addClass("btn-success");
-              $("#status-result").html("V");
-              $("#status-response").html(JSON.stringify(result));
-              $('#akurasi-list').show();
-            } else if (result["message"] === "no_face_detected") {
-              $("#message").html("Scan Tidak Berhasil, Wajah Tidak Terdeteksi");
+            if (result.data.length == 0) {
+              $("#message").html("Scan Tidak Berhasil, Wajah Belum ter-scan Sepenuhnya");
               $("#status-result").removeClass("btn-success");
               $("#status-result").addClass("btn-danger");
               $("#status-result").html("X");
               $("#status-response").html(JSON.stringify(result));
               $('#akurasi-list').hide();
-            } else if (result["message"] === "face_not_match") {
-              $("#th-asli").html("Ketidakaslian");
-              $("#message").html("Scan Tidak Sama, Ketidakaslian : " + averageLivenessAccuracy + '%, Kemiripan : ' + averageDistanceAccuracy + '%');
-              $("#status-result").removeClass("btn-success");
-              $("#status-result").addClass("btn-danger");
-              $("#status-result").html("X");
-              $("#status-response").html(JSON.stringify(result));
-              $('#akurasi-list').show();
-            }
-            $("#start-record").prop('disabled', false);
+            } else {
+              let totalLiveness = 0;
+              let totalDistance = 0;
 
+              result.data.forEach(function (item, index) {
+                let liveness = 0;
+                let distance = 0;
+
+                if (item.liveness_accuracy !== null) {
+                  liveness = item.liveness_accuracy * 100;
+                  totalLiveness += liveness;
+                  hasValidData = true;
+                }
+
+                if (item.fr_distance !== null) {
+                  distance = (1 - item.fr_distance) * 100;
+                  totalDistance += distance;
+                  hasValidData = true;
+                }
+
+                var row = '<tr>' +
+                  '<td>Frame ' + (index + 1) + '</td>' +
+                  '<td>' + liveness.toFixed(2) + '%</td>' +
+                  '<td>' + distance.toFixed(2) + '%</td>' +
+                  '</tr>';
+                akurasi_table.append(row);
+              });
+
+              let averageLivenessAccuracy = (totalLiveness / result.data.length).toFixed(2);
+              let averageDistanceAccuracy = (totalDistance / result.data.length).toFixed(2);
+
+              if (result["message"] === "face_match") {
+                $("#th-asli").html("Keaslian");
+                $("#message").html("Scan Berhasil, Keaslian : " + averageLivenessAccuracy + '%, Kemiripan : ' + averageDistanceAccuracy + '%');
+                $("#status-result").removeClass("btn-danger");
+                $("#status-result").addClass("btn-success");
+                $("#status-result").html("V");
+                $("#status-response").html(JSON.stringify(result));
+                $('#akurasi-list').show();
+              } else if (result["message"] === "no_face_detected") {
+                $("#message").html("Scan Tidak Berhasil, Wajah Tidak Terdeteksi");
+                $("#status-result").removeClass("btn-success");
+                $("#status-result").addClass("btn-danger");
+                $("#status-result").html("X");
+                $("#status-response").html(JSON.stringify(result));
+                $('#akurasi-list').hide();
+              } else if (result["message"] === "face_not_match") {
+                $("#th-asli").html("Ketidakaslian");
+                $("#message").html("Scan Tidak Sama, Ketidakaslian : " + averageLivenessAccuracy + '%, Kemiripan : ' + averageDistanceAccuracy + '%');
+                $("#status-result").removeClass("btn-success");
+                $("#status-result").addClass("btn-danger");
+                $("#status-result").html("X");
+                $("#status-response").html(JSON.stringify(result));
+                $('#akurasi-list').show();
+              }
+              $("#start-record").prop('disabled', false);
+
+            }
           },
           error: function (result) {
             $("#message").html("Foto Tidak Proporsional");
