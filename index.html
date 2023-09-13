@@ -409,7 +409,7 @@
         status_record = true
 
         $.ajax({
-          url: "https://spoofout.cubiconia.net/verify-video",
+          url: "https://lsp-micro-anti-spoofing-ai.btqclk.easypanel.host/verify-video",
           type: "POST",
           data: formData,
           processData: false,
@@ -420,13 +420,23 @@
           success: function (result) {
             let totalLiveness = 0;
             let totalDistance = 0;
+
             result.data.forEach(function (item, index) {
               let liveness = 0;
               let distance = 0;
-              if (item.liveness != false) {
-                distance = (1 - item.fr_distance) * 100;
+
+              if (item.liveness_accuracy !== null) {
+                liveness = item.liveness_accuracy * 100;
+                totalLiveness += liveness;
+                hasValidData = true;
               }
-              liveness = item.liveness_accuracy * 100;
+
+              if (item.fr_distance !== null) {
+                distance = (1 - item.fr_distance) * 100;
+                totalDistance += distance;
+                hasValidData = true;
+              }
+
               var row = '<tr>' +
                 '<td>Frame ' + (index + 1) + '</td>' +
                 '<td>' + liveness.toFixed(2) + '%</td>' +
@@ -435,23 +445,8 @@
               akurasi_table.append(row);
             });
 
-            let livenessAccuracies = result.data.map(function (item) {
-              return item.liveness_accuracy;
-            });
-            let distanceAccuracies = result.data.map(function (item) {
-              if (item.liveness != false) {
-                return (1 - item.fr_distance);
-              } else {
-                return 0;
-              }
-            });
-
-            let averageLivenessAccuracy = (livenessAccuracies.reduce(function (acc, val) {
-              return acc + val;
-            }, 0) / livenessAccuracies.length * 100).toFixed(2);
-            let averageDistanceAccuracy = (distanceAccuracies.reduce(function (acc, val) {
-              return acc + val;
-            }, 0) / distanceAccuracies.length * 100).toFixed(2);
+            let averageLivenessAccuracy = (totalLiveness / result.data.length).toFixed(2);
+            let averageDistanceAccuracy = (totalDistance / result.data.length).toFixed(2);
 
             if (result["message"] === "face_match") {
               $("#th-asli").html("Keaslian");
@@ -478,6 +473,7 @@
               $('#akurasi-list').show();
             }
             $("#start-record").prop('disabled', false);
+
           },
           error: function (result) {
             $("#message").html("Foto Tidak Proporsional");
