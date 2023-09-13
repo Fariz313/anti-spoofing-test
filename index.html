@@ -219,8 +219,8 @@
                   <thead>
                     <tr>
                       <th>Frame</th>
-                      <th>Keaslian</th>
-                      <th>Kemiripan</th>
+                      <th id="th-asli"></th>
+                      <th id="th-mirip">Kemiripan</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -454,6 +454,7 @@
             }, 0) / distanceAccuracies.length * 100).toFixed(2);
 
             if (result["message"] === "face_match") {
+              $("#th-asli").html("Keaslian");
               $("#message").html("Scan Berhasil, Keaslian : " + averageLivenessAccuracy + '%, Kemiripan : ' + averageDistanceAccuracy + '%');
               $("#status-result").removeClass("btn-danger");
               $("#status-result").addClass("btn-success");
@@ -468,6 +469,7 @@
               $("#status-response").html(JSON.stringify(result));
               $('#akurasi-list').hide();
             } else if (result["message"] === "face_not_match") {
+              $("#th-asli").html("Ketidakaslian");
               $("#message").html("Scan Tidak Sama, Ketidakaslian : " + averageLivenessAccuracy + '%, Kemiripan : ' + averageDistanceAccuracy + '%');
               $("#status-result").removeClass("btn-success");
               $("#status-result").addClass("btn-danger");
