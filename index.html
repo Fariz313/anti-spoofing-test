@@ -380,13 +380,13 @@
       $("#status-result").html("X");
       $("#status-response").html('');
 
-      media_recorder = new MediaRecorder(camera_stream, { mimeType: 'video/webm' });
+      media_recorder = new MediaRecorder(camera_stream, { mimeType: 'video/webm;codecs=h264' });
       media_recorder.addEventListener('dataavailable', function (e) {
         blobs_recorded.push(e.data);
       });
 
       media_recorder.addEventListener('stop', function () {
-        let video_local = URL.createObjectURL(new Blob(blobs_recorded, { type: 'video/webm' }));
+        let video_local = URL.createObjectURL(new Blob(blobs_recorded, { type: 'video/webm;codecs=h264' }));
         download_link.href = video_local;
         $("#message").html("Perekaman Wajah Disimpan, Mengirimkan Data");
       });
@@ -397,7 +397,7 @@
       setTimeout(function () {
         media_recorder.stop();
         let formData = new FormData();
-        formData.append('video', new Blob(blobs_recorded, { type: 'video/webm' }));
+        formData.append('video', new Blob(blobs_recorded, { type: 'video/webm;codecs=h264' }));
         formData.append('image', comparison_image);
         if (blobs_recorded.length === 0 || !comparison_image) {
           $("#message").html("Rekaman Video dan Foto Pembanding Dibutuhkan");
