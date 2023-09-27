@@ -316,7 +316,7 @@
       $('#comparison-image').change(function () {
         comparison_image = event.target.files[0];
         const file = this.files[0];
-        console.log(comparison_image);
+        // console.log(comparison_image);
         if (file) {
           let reader = new FileReader();
           reader.onload = function (event) {
@@ -333,7 +333,7 @@
       });
       $('#id-image').change(function () {
         const file = this.files[0];
-        console.log(file);
+        // console.log(file);
         if (file) {
           let reader = new FileReader();
           reader.onload = function (event) {
@@ -368,7 +368,14 @@
         return
       }
 
-      console.log('FOTO', comparison_image);
+      // console.log('FOTO', comparison_image);
+      var userAgent = navigator.userAgent;
+      let mimeType;
+      if (userAgent.indexOf("Safari") !== -1 && userAgent.indexOf("Chrome") === -1) {
+        mimeType = "video/mp4;codecs=h264";
+      } else {
+        mimeType = "video/webm;codecs=h264";
+      }
 
       akurasi_table.empty();
       $("#status-record").removeClass("btn-success");
@@ -425,6 +432,7 @@
               $("#status-result").html("X");
               $("#status-response").html(JSON.stringify(result));
               $('#akurasi-list').hide();
+              $("#start-record").prop('disabled', false);
             } else {
               let totalLiveness = 0;
               let totalDistance = 0;
@@ -464,6 +472,14 @@
                 $("#status-result").html("V");
                 $("#status-response").html(JSON.stringify(result));
                 $('#akurasi-list').show();
+              } else if (result.data[0].liveness === false) {
+                $("#th-asli").html("Ketidakaslian");
+                $("#message").html("Scan Tidak Sama, Ketidakaslian : " + averageLivenessAccuracy + '%, Kemiripan : ' + averageDistanceAccuracy + '%');
+                $("#status-result").removeClass("btn-success");
+                $("#status-result").addClass("btn-danger");
+                $("#status-result").html("X");
+                $("#status-response").html(JSON.stringify(result));
+                $('#akurasi-list').show();
               } else if (result["message"] === "no_face_detected") {
                 $("#message").html("Scan Tidak Berhasil, Wajah Tidak Terdeteksi");
                 $("#status-result").removeClass("btn-success");
@@ -472,8 +488,8 @@
                 $("#status-response").html(JSON.stringify(result));
                 $('#akurasi-list').hide();
               } else if (result["message"] === "face_not_match") {
-                $("#th-asli").html("Ketidakaslian");
-                $("#message").html("Scan Tidak Sama, Ketidakaslian : " + averageLivenessAccuracy + '%, Kemiripan : ' + averageDistanceAccuracy + '%');
+                $("#th-asli").html("Keaslian");
+                $("#message").html("Scan Tidak Sama, Keaslian : " + averageLivenessAccuracy + '%, Kemiripan : ' + averageDistanceAccuracy + '%');
                 $("#status-result").removeClass("btn-success");
                 $("#status-result").addClass("btn-danger");
                 $("#status-result").html("X");
